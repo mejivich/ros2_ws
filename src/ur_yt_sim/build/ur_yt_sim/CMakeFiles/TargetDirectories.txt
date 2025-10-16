@@ -1,0 +1,9 @@
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/uninstall.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/ur_yt_sim_uninstall.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/test.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/edit_cache.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/rebuild_cache.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/list_install_components.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/install.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/install/local.dir
+/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim/CMakeFiles/install/strip.dir

@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="inlet">
+    <link name="link">
+      <gravity>1</gravity>
+      <self_collide>false</self_collide>
+
+      <!-- Inertia for EV power inlet: mass ~0.3-0.5kg, dimensions ~150x80x60mm -->
+      <inertial>
+        <mass>0.4</mass>
+        <inertia>
+          <ixx>0.0004</ixx>
+          <iyy>0.0002</iyy>
+          <izz>0.0003</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <!-- VISUAL: DAE in meters -->
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://inlet/meshes/inlet.dae</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <cast_shadows>false</cast_shadows>
+      </visual>
+
+      <!-- COLLISION PRIMITIVE - Adjusted for EV inlet size -->
+      <collision name="col_bottom">
+        <pose>0 0 -0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.15 0.08 0.06</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+  </model>
+</sdf>

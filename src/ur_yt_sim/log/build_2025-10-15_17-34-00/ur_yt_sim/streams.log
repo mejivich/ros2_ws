@@ -1,0 +1,34 @@
+[0.011s] Invoking command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim -- -j8 -l8
+[0.048s] Invoked command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim -- -j8 -l8
+[0.070s] Invoking command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim
+[0.075s] -- Install configuration: ""
+[0.075s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/launch
+[0.075s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/launch/view_ur16e.launch.py
+[0.075s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/config
+[0.075s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/config/initial_positions.yaml
+[0.075s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/config/ur16e_controllers.yaml
+[0.075s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/worlds
+[0.075s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/ur16e_camera.urdf.xacro
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/camera.xacro
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/ur16e.ros2_control.xacro
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/ur16e_macro.xacro
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/meshes
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/rviz
+[0.076s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/rviz/view_ur16e.rviz
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ament_index/resource_index/package_run_dependencies/ur_yt_sim
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ament_index/resource_index/parent_prefix_path/ur_yt_sim
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/ament_prefix_path.sh
+[0.076s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/ament_prefix_path.dsv
+[0.077s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/path.sh
+[0.077s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/path.dsv
+[0.077s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.bash
+[0.077s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.sh
+[0.078s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.zsh
+[0.078s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.dsv
+[0.078s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/package.dsv
+[0.078s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ament_index/resource_index/packages/ur_yt_sim
+[0.078s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/cmake/ur_yt_simConfig.cmake
+[0.078s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/cmake/ur_yt_simConfig-version.cmake
+[0.078s] -- Up-to-date: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/package.xml
+[0.079s] Invoked command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim

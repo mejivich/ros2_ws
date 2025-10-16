@@ -1,0 +1,80 @@
+[0.032s] Invoking command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /root/ros2_ws/src/ur_yt_sim -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim
+[0.156s] -- The C compiler identification is GNU 11.4.0
+[0.313s] -- The CXX compiler identification is GNU 11.4.0
+[0.336s] -- Detecting C compiler ABI info
+[0.501s] -- Detecting C compiler ABI info - done
+[0.521s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.522s] -- Detecting C compile features
+[0.522s] -- Detecting C compile features - done
+[0.532s] -- Detecting CXX compiler ABI info
+[0.693s] -- Detecting CXX compiler ABI info - done
+[0.711s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.712s] -- Detecting CXX compile features
+[0.713s] -- Detecting CXX compile features - done
+[0.743s] -- Found ament_cmake: 1.3.10 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.088s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.377s] -- Found xacro: 2.0.8 (/opt/ros/humble/share/xacro/cmake)
+[1.385s] -- Found rclcpp: 16.0.10 (/opt/ros/humble/share/rclcpp/cmake)
+[1.544s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.559s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.582s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.625s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.672s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.835s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.843s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/vulcanexus/humble/share/rmw_fastrtps_cpp/cmake)
+[2.071s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[2.122s] -- Found FastRTPS: /opt/vulcanexus/humble/include  
+[2.248s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.279s] -- Looking for pthread.h
+[2.438s] -- Looking for pthread.h - found
+[2.439s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.595s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[2.597s] -- Found Threads: TRUE  
+[2.750s] -- Found trajectory_msgs: 4.2.4 (/opt/ros/humble/share/trajectory_msgs/cmake)
+[2.875s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[3.105s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.105s] -- Configured cppcheck include dirs: 
+[3.105s] -- Configured cppcheck exclude dirs and/or files: 
+[3.107s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.110s] -- Added test 'lint_cmake' to check CMake code style
+[3.113s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[3.126s] -- Added test 'uncrustify' to check C / C++ code style
+[3.126s] -- Configured uncrustify additional arguments: 
+[3.128s] -- Added test 'xmllint' to check XML markup files
+[3.131s] -- Configuring done
+[3.137s] -- Generating done
+[3.140s] -- Build files have been written to: /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim
+[3.157s] Invoked command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /root/ros2_ws/src/ur_yt_sim -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim
+[3.158s] Invoking command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim -- -j8 -l8
+[3.231s] Invoked command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim -- -j8 -l8
+[3.298s] Invoking command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim
+[3.311s] -- Install configuration: ""
+[3.311s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/launch
+[3.311s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/launch/view_ur16e.launch.py
+[3.311s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/config
+[3.311s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/config/initial_positions.yaml
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/config/ur16e_controllers.yaml
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/worlds
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/ur16e_camera.urdf.xacro
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/camera.xacro
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/ur16e.ros2_control.xacro
+[3.312s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/urdf/ur16e_macro.xacro
+[3.313s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/meshes
+[3.313s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/rviz
+[3.313s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ament_index/resource_index/package_run_dependencies/ur_yt_sim
+[3.313s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ament_index/resource_index/parent_prefix_path/ur_yt_sim
+[3.313s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/ament_prefix_path.sh
+[3.314s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/ament_prefix_path.dsv
+[3.314s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/path.sh
+[3.315s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/environment/path.dsv
+[3.315s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.bash
+[3.315s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.sh
+[3.318s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.zsh
+[3.319s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/local_setup.dsv
+[3.319s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/package.dsv
+[3.319s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ament_index/resource_index/packages/ur_yt_sim
+[3.319s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/cmake/ur_yt_simConfig.cmake
+[3.319s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/cmake/ur_yt_simConfig-version.cmake
+[3.319s] -- Installing: /root/ros2_ws/src/ur_yt_sim/install/ur_yt_sim/share/ur_yt_sim/package.xml
+[3.322s] Invoked command in '/root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /root/ros2_ws/src/ur_yt_sim/build/ur_yt_sim

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="car_with_inlet_v2">
+    
+    <!-- Include the Prius Hybrid from Gazebo database -->
+    <include>
+      <uri>model://prius_hybrid</uri>
+      <name>prius</name>
+    </include>
+    
+    <!-- Include your custom inlet -->
+    <include>
+      <uri>model://inlet</uri>
+      <name>inlet</name>
+    </include>
+    
+    <joint name="inlet_joint" type="fixed">
+      <parent>prius::chassis</parent>
+      <child>inlet::link</child>
+      <!-- Position on LEFT side of roof, facing sideways -->
+      <pose>0.8 0.5 1.5 0 0 1.5708</pose>
+    </joint>
+    
+  </model>
+</sdf>
