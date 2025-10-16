@@ -1,0 +1,16 @@
+# ROS 2 colcon workspace ignore rules
+build/
+install/
+log/
+
+# Python cache
+*.pyc
+__pycache__/
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+
+# Backup files
+*.bak
