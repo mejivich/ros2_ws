@@ -1,1 +1,0 @@
-/root/ros2_ws/src/ur_yt_sim/launch/spawn_ur16e.launch.py

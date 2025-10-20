@@ -1,1 +1,0 @@
-/root/ros2_ws/src/ur_yt_sim/launch/view_ur16e.launch.py

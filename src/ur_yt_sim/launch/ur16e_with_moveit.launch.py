@@ -33,7 +33,9 @@ def launch_setup(context, *args, **kwargs):
     initial_joint_controller = LaunchConfiguration("initial_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
     gazebo_gui = LaunchConfiguration("gazebo_gui")
-
+    car_urdf_file = os.path.join(
+    get_package_share_directory("ur_yt_sim"),"urdf","car_with_inlet.urdf"
+    )
     initial_joint_controllers = PathJoinSubstitution(
         [FindPackageShare(runtime_config_package), "config", controllers_file]
     )
@@ -95,6 +97,18 @@ def launch_setup(context, *args, **kwargs):
         parameters=[{"use_sim_time": True}, robot_description],
     )
 
+    car_state_publisher_node = Node(
+    package="robot_state_publisher",
+    executable="robot_state_publisher",
+    name="car_state_publisher",
+    output="screen",
+    parameters=[{"robot_description": open(car_urdf_file).read(), "use_sim_time": True}],
+    )
+    car_node = Node(
+    package="ur_yt_sim",
+    executable="add_car_to_scene.py",
+    output="screen",
+    )
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -152,6 +166,21 @@ def launch_setup(context, *args, **kwargs):
         arguments=["-entity", "ur", "-topic", "robot_description"],
         output="screen",
     )
+        # --- MoveIt2 configuration for UR16e ---
+    ur_moveit_pkg = get_package_share_directory('ur_moveit_config')
+
+    moveit_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(ur_moveit_pkg, 'launch', 'ur_moveit.launch.py')
+        ),
+        launch_arguments={
+            'ur_type': 'ur16e',
+            'use_rviz': 'true',      # disable if your Docker has no display
+            'use_sim_time': 'true',  # match Gazebo sim time
+            'load_robot_description': 'false',  # <-- Add this
+            'spawn_robot': 'false',  
+        }.items(),
+    )
 
     nodes_to_start = [
         robot_state_publisher_node,
@@ -161,6 +190,9 @@ def launch_setup(context, *args, **kwargs):
         initial_joint_controller_spawner_started,
         gazebo,
         gazebo_spawn_robot,
+        moveit_launch,
+        car_state_publisher_node,
+        car_node,
     ]
     
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$ur">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$ur16e">
    <!-- robot name parameter -->
-   <xacro:arg name="name" default="ur"/>
+   <xacro:arg name="name" default="ur16e"/>
    <!-- import main macro -->
    <xacro:include filename="$(find ur_yt_sim)/urdf/ur16e_macro.xacro"/>
 
@@ -131,12 +131,20 @@
     <gazebo reference="world">
     </gazebo>
     <gazebo>
-      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control_$(arg name)">
         <parameters>$(arg simulation_controllers)</parameters>
       </plugin>
     </gazebo>
+    <gazebo>
+      <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+        <ros>
+          <namespace>/</namespace>
+        </ros>
+        <update_rate>50.0</update_rate>
+      </plugin>
+    </gazebo>
   </xacro:if>
-
+  
   <xacro:if value="$(arg sim_ignition)">
     <!-- Gazebo plugins -->
     <gazebo reference="world">

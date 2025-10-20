@@ -1,2 +1,0 @@
-Invoking command in '/root/ros2_ws/build/ur_description': /usr/bin/cmake /root/ros2_ws/src/Universal_Robots_ROS2_Description -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ur_description
-Invoked command in '/root/ros2_ws/build/ur_description' returned '1': /usr/bin/cmake /root/ros2_ws/src/Universal_Robots_ROS2_Description -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ur_description
