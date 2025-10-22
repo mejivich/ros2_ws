@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-  <!--
     Base UR robot series xacro macro.
 
     NOTE this is NOT a URDF. It cannot directly be loaded by consumers

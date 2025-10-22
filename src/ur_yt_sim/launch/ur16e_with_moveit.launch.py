@@ -3,12 +3,13 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
-    IncludeLaunchDescription,
     OpaqueFunction,
     RegisterEventHandler,
+    TimerAction,
+    IncludeLaunchDescription,  # <-- add this
 )
-from launch.conditions import IfCondition, UnlessCondition
-from launch.event_handlers import OnProcessExit
+from launch.conditions import IfCondition
+from launch.event_handlers import OnProcessStart
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
@@ -16,13 +17,11 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context, *args, **kwargs):
-
-    # Initialize Arguments
+    # --- Launch configurations ---
     ur_type = LaunchConfiguration("ur_type")
     safety_limits = LaunchConfiguration("safety_limits")
     safety_pos_margin = LaunchConfiguration("safety_pos_margin")
     safety_k_position = LaunchConfiguration("safety_k_position")
-    # General arguments
     runtime_config_package = LaunchConfiguration("runtime_config_package")
     controllers_file = LaunchConfiguration("controllers_file")
     initial_positions_file = LaunchConfiguration("initial_positions_file")
@@ -33,284 +32,176 @@ def launch_setup(context, *args, **kwargs):
     initial_joint_controller = LaunchConfiguration("initial_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
     gazebo_gui = LaunchConfiguration("gazebo_gui")
-    car_urdf_file = os.path.join(
-    get_package_share_directory("ur_yt_sim"),"urdf","car_with_inlet.urdf"
-    )
-    initial_joint_controllers = PathJoinSubstitution(
-        [FindPackageShare(runtime_config_package), "config", controllers_file]
-    )
 
-    initial_positions_file_abs = PathJoinSubstitution(
-        [FindPackageShare(runtime_config_package), "config", initial_positions_file]
-    )
-
-    rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare(description_package), "rviz", "view_ur16e.rviz"]
-    )
+    # Paths
+    controllers_yaml = PathJoinSubstitution([FindPackageShare(runtime_config_package), "config", controllers_file])
+    initial_positions_yaml = PathJoinSubstitution([FindPackageShare(runtime_config_package), "config", initial_positions_file])
+    rviz_config_file = PathJoinSubstitution([FindPackageShare(description_package), "rviz", "view_ur16e.rviz"])
+    world_file = os.path.join(get_package_share_directory("ur_yt_sim"), "worlds", "world4.world")
     
-    # Fixed world file path
-    world_file = os.path.join(
-        get_package_share_directory("ur_yt_sim"), "worlds", "world2.world"
-    )
-
-    robot_description_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [FindPackageShare(description_package), "urdf", description_file]
-            ),
-            " ",
-            "safety_limits:=",
-            safety_limits,
-            " ",
-            "safety_pos_margin:=",
-            safety_pos_margin,
-            " ",
-            "safety_k_position:=",
-            safety_k_position,
-            " ",
-            "name:=",
-            "ur",
-            " ",
-            "ur_type:=",
-            ur_type,
-            " ",
-            "prefix:=",
-            prefix,
-            " ",
-            "sim_gazebo:=true",
-            " ",
-            "simulation_controllers:=",
-            initial_joint_controllers,
-            " ",
-            "initial_positions_file:=",
-            initial_positions_file_abs,
-        ]
-    )
+    # --- Robot Description ---
+    robot_description_content = Command([
+        PathJoinSubstitution([FindExecutable(name="xacro")]), " ",
+        PathJoinSubstitution([FindPackageShare(description_package), "urdf", description_file]), " ",
+        "safety_limits:=", safety_limits, " ",
+        "safety_pos_margin:=", safety_pos_margin, " ",
+        "safety_k_position:=", safety_k_position, " ",
+        "name:=", ur_type, " ",
+        "ur_type:=", ur_type, " ",
+        "prefix:=", prefix, " ",
+        "sim_gazebo:=true", " ",
+        "simulation_controllers:=", controllers_yaml, " ",
+        "initial_positions_file:=", initial_positions_yaml
+    ])
     robot_description = {"robot_description": robot_description_content}
 
+    # --- Nodes ---
+    # robot_state_publisher
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        output="both",
+        output="screen",
         parameters=[{"use_sim_time": True}, robot_description],
     )
 
-    car_state_publisher_node = Node(
-    package="robot_state_publisher",
-    executable="robot_state_publisher",
-    name="car_state_publisher",
-    output="screen",
-    parameters=[{"robot_description": open(car_urdf_file).read(), "use_sim_time": True}],
-    )
-    car_node = Node(
-    package="ur_yt_sim",
-    executable="add_car_to_scene.py",
-    output="screen",
-    )
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-        condition=IfCondition(launch_rviz),
+    # ros2_control_node (required for controllers)
+    ros2_control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[robot_description, controllers_yaml],
+        output="screen",
     )
 
+    # Gazebo
+    gazebo_launch = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(
+        [FindPackageShare("gazebo_ros"), "/launch", "/gazebo.launch.py"]
+    ),
+    launch_arguments={
+        "world": world_file,
+        "gui": gazebo_gui,
+    }.items(),
+    )
+
+    # Spawn robot in Gazebo after ros2_control_node is running
+    spawn_ur = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=ros2_control_node,
+            on_start=[Node(
+                package="gazebo_ros",
+                executable="spawn_entity.py",
+                arguments=["-entity", "ur", "-topic", "robot_description"],
+                output="screen",
+            )]
+        )
+    )
+
+    # Controllers
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+        arguments=["joint_state_broadcaster", "-c", "/controller_manager"],
+        output="screen",
     )
 
-    # Delay rviz start after `joint_state_broadcaster`
-    delay_rviz_after_joint_state_broadcaster_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=joint_state_broadcaster_spawner,
-            on_exit=[rviz_node],
-        ),
-        condition=IfCondition(launch_rviz),
-    )
-
-    # There may be other controllers of the joints, but this is the initially-started one
-    initial_joint_controller_spawner_started = Node(
+    joint_trajectory_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=[initial_joint_controller, "-c", "/controller_manager"],
         condition=IfCondition(start_joint_controller),
-    )
-    initial_joint_controller_spawner_stopped = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[initial_joint_controller, "-c", "/controller_manager", "--stopped"],
-        condition=UnlessCondition(start_joint_controller),
-    )
-
-    # Gazebo nodes - Fixed to include world file
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [FindPackageShare("gazebo_ros"), "/launch", "/gazebo.launch.py"]
-        ),
-        launch_arguments={
-            "gui": gazebo_gui,
-            "world": world_file,  # Add world file to Gazebo launch
-        }.items(),
-    )
-
-    # Spawn robot
-    gazebo_spawn_robot = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
-        name="spawn_ur",
-        arguments=["-entity", "ur", "-topic", "robot_description"],
         output="screen",
     )
-        # --- MoveIt2 configuration for UR16e ---
-    ur_moveit_pkg = get_package_share_directory('ur_moveit_config')
 
+    # MoveIt launch (delayed until robot_state_publisher is ready)
+    ur_moveit_pkg = get_package_share_directory('ur_moveit_config')
     moveit_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(ur_moveit_pkg, 'launch', 'ur_moveit.launch.py')
-        ),
+        PythonLaunchDescriptionSource(os.path.join(ur_moveit_pkg, 'launch', 'ur_moveit.launch.py')),
         launch_arguments={
-            'ur_type': 'ur16e',
-            'use_rviz': 'true',      # disable if your Docker has no display
-            'use_sim_time': 'true',  # match Gazebo sim time
-            'load_robot_description': 'false',  # <-- Add this
-            'spawn_robot': 'false',  
-        }.items(),
+            'ur_type': ur_type.perform(context),
+            'use_rviz': 'false',
+            'use_sim_time': 'true',
+            'load_robot_description': 'false',
+            'spawn_robot': 'false',
+        }.items()
+    )
+    moveit_launch_delayed = TimerAction(
+        period=5.0,
+        actions=[moveit_launch]
     )
 
-    nodes_to_start = [
-        robot_state_publisher_node,
-        joint_state_broadcaster_spawner,
-        delay_rviz_after_joint_state_broadcaster_spawner,
-        initial_joint_controller_spawner_stopped,
-        initial_joint_controller_spawner_started,
-        gazebo,
-        gazebo_spawn_robot,
-        moveit_launch,
-        car_state_publisher_node,
-        car_node,
-    ]
-    
+    # RViz (delayed until joint_state_broadcaster spawner finishes)
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="screen",
+        arguments=["-d", rviz_config_file],
+        condition=IfCondition(launch_rviz),
+    )
 
-    return nodes_to_start
+    rviz_delayed = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=joint_state_broadcaster_spawner,
+            on_start=[rviz_node]
+        )
+    )
+
+    return [
+        gazebo_launch,
+        robot_state_publisher_node,
+        ros2_control_node,
+        spawn_ur,
+        joint_state_broadcaster_spawner,
+        joint_trajectory_controller_spawner,
+        moveit_launch_delayed,
+        rviz_delayed
+    ]
 
 
 def generate_launch_description():
     declared_arguments = []
-    # UR specific arguments
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ur_type",
-            description="Type/series of used UR robot.",
-            choices=[
-                "ur3",
-                "ur3e",
-                "ur5",
-                "ur5e",
-                "ur7e",
-                "ur10",
-                "ur12e",
-                "ur10e",
-                "ur16e",
-                "ur20",
-                "ur30",
-            ],
-            default_value="ur16e",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "safety_limits",
-            default_value="true",
-            description="Enables the safety limits controller if true.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "safety_pos_margin",
-            default_value="0.15",
-            description="The margin to lower and upper limits in the safety controller.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "safety_k_position",
-            default_value="20",
-            description="k-position factor in the safety controller.",
-        )
-    )
-    # General arguments
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "runtime_config_package",
-            default_value="ur_yt_sim",
-            description='Package with the controller\'s configuration in "config" folder. \
-        Usually the argument is not set, it enables use of a custom setup.',
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "controllers_file",
-            default_value="ur16e_controllers.yaml",
-            description="YAML file with the controllers configuration.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "initial_positions_file",
-            default_value="initial_positions.yaml",
-            description="YAML file with the robot's initial joint positions.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "description_package",
-            default_value="ur_yt_sim",
-            description="Description package with robot URDF/XACRO files. Usually the argument \
-        is not set, it enables use of a custom description.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "description_file",
-            default_value="ur16e_camera.urdf.xacro",
-            description="URDF/XACRO description file with the robot.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "prefix",
-            default_value='""',
-            description="Prefix of the joint names, useful for \
-        multi-robot setup. If changed than also joint names in the controllers' configuration \
-        have to be updated.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "start_joint_controller",
-            default_value="true",
-            description="Enable headless mode for robot control",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "initial_joint_controller",
-            default_value="joint_trajectory_controller",
-            description="Robot controller to start.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?")
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "gazebo_gui", default_value="true", description="Start gazebo with GUI?"
-        )
-    )
+
+    declared_arguments.append(DeclareLaunchArgument(
+        "ur_type", default_value="ur16e", description="Type of UR robot."
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "safety_limits", default_value="true", description="Enable safety limits"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "safety_pos_margin", default_value="0.15", description="Safety margin"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "safety_k_position", default_value="20", description="Safety K position"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "runtime_config_package", default_value="ur_yt_sim", description="Controller config package"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "controllers_file", default_value="ur16e_controllers.yaml", description="Controllers YAML"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "initial_positions_file", default_value="initial_positions.yaml", description="Initial joint positions"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "description_package", default_value="ur_yt_sim", description="Package containing URDF/XACRO"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "description_file", default_value="ur16e_camera.urdf.xacro", description="URDF/XACRO file"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "prefix", default_value='""', description="Joint name prefix for multi-robot setup"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "start_joint_controller", default_value="true", description="Start joint trajectory controller"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "initial_joint_controller", default_value="joint_trajectory_controller", description="Initial joint controller"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "launch_rviz", default_value="true", description="Launch RViz?"
+    ))
+    declared_arguments.append(DeclareLaunchArgument(
+        "gazebo_gui", default_value="true", description="Launch Gazebo GUI?"
+    ))
 
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
