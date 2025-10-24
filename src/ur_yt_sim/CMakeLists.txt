@@ -16,16 +16,6 @@ find_package(moveit_ros_planning_interface REQUIRED)
 find_package(gazebo_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
-add_executable(inlet_tracker src/inlet_tracker.cpp)
-ament_target_dependencies(inlet_tracker 
-  rclcpp 
-  gazebo_msgs 
-  geometry_msgs
-  std_msgs
-)
-
-install(TARGETS inlet_tracker
-  DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

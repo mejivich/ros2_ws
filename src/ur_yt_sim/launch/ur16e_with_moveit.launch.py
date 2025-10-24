@@ -120,7 +120,7 @@ def launch_setup(context, *args, **kwargs):
             'ur_type': ur_type.perform(context),
             'use_rviz': 'false',
             'use_sim_time': 'true',
-            'load_robot_description': 'false',
+            'load_robot_description': 'true',
             'spawn_robot': 'false',
         }.items()
     )
