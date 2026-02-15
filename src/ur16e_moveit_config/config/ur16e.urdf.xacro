@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur16e">
+
+  <!-- Import your EV-charger URDF -->
+  <xacro:include filename="$(find ur_yt_sim)/urdf/ur16e_with_evcharger.urdf.xacro"/>
+
+
+
+</robot>

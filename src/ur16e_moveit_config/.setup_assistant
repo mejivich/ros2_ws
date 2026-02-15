@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: ur_yt_sim
+    relative_path: urdf/ur16e_with_evcharger.urdf.xacro
+  srdf:
+    relative_path: config/ur16e.srdf
+  package_settings:
+    author_name: haris
+    author_email: ""
+    generated_timestamp: 1762181639
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
