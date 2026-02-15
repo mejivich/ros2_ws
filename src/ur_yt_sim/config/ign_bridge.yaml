@@ -1,0 +1,40 @@
+# Gz bridge to spawn entities
+- ros_topic_name: "spawn_entity"
+  gz_topic_name: "world/EV_charging_world/create"
+  ros_type_name: "ros_gz_interfaces/msg/EntityFactory"
+  gz_type_name: "gz.msgs.EntityFactory"
+  direction: ROS_TO_GZ
+
+# Clock bridge
+- ros_topic_name: "clock"
+  gz_topic_name: "clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+
+# Camera topics (corrected!)
+- ros_topic_name: "camera/camera_info"
+  gz_topic_name: "/camera/image/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "camera/image"
+  gz_topic_name: "/camera/image/image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "camera/depth_image"
+  gz_topic_name: "/camera/image/depth_image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "camera/points"
+  gz_topic_name: "/camera/image/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+  
+

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 10
+names: ['inlet', 'inlet-above-left', 'inlet-above-right', 'inlet-below-left', 'inlet-below-right', 'inlet-circle', 'inlet-circle-left', 'inlet-circle-right', 'inlet-minus', 'inlet-plus']
+
+roboflow:
+  workspace: cv-socker-recognizer
+  project: inletfinder-keaha-kkrfz
+  version: 1
+  license: CC BY 4.0
+  url: https://app.roboflow.com/cv-socker-recognizer/inletfinder-keaha-kkrfz/1
